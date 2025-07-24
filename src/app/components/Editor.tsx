@@ -9,6 +9,7 @@ export default function CodeEditor({ language, code, setCode }: any) {
     loader.init().then((monaco) => {
       monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
       monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+      
     });
   }, []);
 

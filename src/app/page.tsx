@@ -311,7 +311,11 @@ console.log("Hello, World!");`);
         <MonacoEditor language={language} code={code} setCode={setCode} />
         <div className="grid grid-cols-1  gap-4"> 
         <OutputPanel output={getOutput(outputDetails)} />
-          <AISuggestions />
+          <AISuggestions 
+  output={getOutput(outputDetails)} 
+  code={code} 
+  language={language} 
+/>
           </div>
         </div>
       
