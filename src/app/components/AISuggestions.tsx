@@ -1,6 +1,7 @@
 'use client';
 import { Copy, Sparkles, Lightbulb, Code, Zap, AlertCircle } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface AISuggestionsProps {
   output?: any;
@@ -12,6 +13,7 @@ export default function AISuggestions({ output, code, language }: AISuggestionsP
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
+  const [customPrompt, setCustomPrompt] = useState('');
 
   // Function to call your API route instead of directly calling OpenAI
   const getAISuggestions = async () => {
@@ -31,7 +33,7 @@ export default function AISuggestions({ output, code, language }: AISuggestionsP
   headers: {
     'Content-Type': 'application/json',
   },
-  body: JSON.stringify({ code, language }),
+  body: JSON.stringify({ code, language, customPrompt }),
 });
 
     console.log("response",response)
@@ -57,14 +59,11 @@ export default function AISuggestions({ output, code, language }: AISuggestionsP
     }
   };
 
-  // Mock suggestions for demo (remove when API is working)
-  const mockSuggestions = [
-    "💡 Consider adding error handling with try-catch blocks",
-    "🚀 You could optimize this using more efficient algorithms",
-    "✨ Add input validation to handle edge cases",
-    "🔧 Consider using modern ES6+ features like arrow functions",
-    "📊 Add comments to explain complex logic"
-  ];
+
+  const handlecopy=() => {
+    copyToClipboard(suggestions.join('\n'))
+    toast.success('copied to clipboard!')
+  }
 
   return (
     <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden">
@@ -79,12 +78,20 @@ export default function AISuggestions({ output, code, language }: AISuggestionsP
           </div>
         </div>
         <button 
-          onClick={() => copyToClipboard(suggestions.join('\n'))}
+          onClick={handlecopy}
           className="p-1 hover:bg-white/10 rounded transition-colors"
           title="Copy all suggestions"
         >
           <Copy className="w-4 h-4 text-gray-400" />
         </button> 
+      </div>
+      <div className="p-4">
+      <input
+        className="w-full p-2 border rounded mb-4 text-sm"
+        placeholder="Optional: Custom prompt (e.g. Suggest improvements for frontend performance)"
+        value={customPrompt}
+        onChange={(e) => setCustomPrompt(e.target.value)}
+      />
       </div>
 
       <div className="p-4">
@@ -106,7 +113,7 @@ export default function AISuggestions({ output, code, language }: AISuggestionsP
           ) : (
             <>
               <Zap className="w-4 h-4" />
-              <span>Get AI Suggestions</span>
+              <span>Submit</span>
               <Sparkles className="w-4 h-4" />
             </>
           )}
@@ -134,7 +141,7 @@ export default function AISuggestions({ output, code, language }: AISuggestionsP
               >
                 <p className="text-sm text-purple-100">{suggestion}</p>
                 <button 
-                  onClick={() => copyToClipboard(suggestion)}
+                  onClick={handlecopy}
                   className="mt-2 text-xs text-purple-300 hover:text-purple-200 flex items-center space-x-1"
                 >
                   <Copy className="w-3 h-3" />
@@ -145,26 +152,9 @@ export default function AISuggestions({ output, code, language }: AISuggestionsP
           </div>
         )}
 
-        {/* Demo Suggestions (remove when API is working) */}
-        {/* {suggestions.length === 0 && !loading && !error && (
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-gray-300 flex items-center space-x-2">
-              <Code className="w-4 h-4 text-blue-400" />
-              <span>Quick Tips:</span>
-            </h3>
-            {mockSuggestions.map((suggestion, index) => (
-              <div 
-                key={index}
-                className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3"
-              >
-                <p className="text-sm text-blue-100">{suggestion}</p>
-              </div>
-            ))}
-          </div>
-        )} */}
 
         {/* Quick Actions */}
-        <div className="mt-6 space-y-2">
+        {/* <div className="mt-6 space-y-2">
           <h3 className="text-sm font-semibold text-gray-300">Quick Actions:</h3>
           <div className="grid grid-cols-1 gap-2">
             <button className="text-left p-2 hover:bg-gray-700/30 rounded-lg text-sm transition-colors flex items-center space-x-2">
@@ -184,7 +174,7 @@ export default function AISuggestions({ output, code, language }: AISuggestionsP
               <span>Add Comments</span>
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>   
   );
