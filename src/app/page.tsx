@@ -326,6 +326,7 @@ console.log("Hello, World!");`);
             output={getOutput(outputDetails)}
             code={code}
             language={language}
+            onCodeGenerated={setCode}
           />
         </div>
       </div>
