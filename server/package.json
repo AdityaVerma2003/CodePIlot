@@ -1,0 +1,27 @@
+{
+  "name": "codepilot-collaboration-server",
+  "version": "1.0.0",
+  "description": "WebSocket server for CodePilot collaboration features",
+  "main": "collaboration-server.js",
+  "scripts": {
+    "start": "node collaboration-server.js",
+    "dev": "nodemon collaboration-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "keywords": [
+    "websocket",
+    "collaboration",
+    "real-time",
+    "code-editor"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

@@ -5,7 +5,8 @@ import { loader } from "@monaco-editor/react";
 import { Copy } from "lucide-react";
 import toast from "react-hot-toast";
 
-export default function CodeEditor({ language, code, setCode }: any) {
+
+export default function CodeEditor({ language, code, setCode }: any){
   useEffect(() => {
     loader.init().then((monaco) => {
       monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
